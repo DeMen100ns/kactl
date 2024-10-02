@@ -1,23 +1,53 @@
-/**
- * Author: User adamant on CodeForces
- * Source: http://codeforces.com/blog/entry/12143
- * Description: For each position in a string, computes p[0][i] = half length of
- *  longest even palindrome around pos i, p[1][i] = longest odd (half rounded down).
- * Time: O(N)
- * Status: Stress-tested
- */
-#pragma once
-
-array<vi, 2> manacher(const string& s) {
-	int n = sz(s);
-	array<vi,2> p = {vi(n+1), vi(n)};
-	rep(z,0,2) for (int i=0,l=0,r=0; i < n; i++) {
-		int t = r-i+!z;
-		if (i<r) p[z][i] = min(t, p[z][l+t]);
-		int L = i-p[z][i], R = i+p[z][i]-!z;
-		while (L>=1 && R+1<n && s[L-1] == s[R+1])
-			p[z][i]++, L--, R++;
-		if (R>r) l=L, r=R;
-	}
-	return p;
+/*
+    Explaination:
+        C is the type of the alphabet
+            the operator == must be defined
+        V is an std::vector-like class over C that has:
+            the constructor V(int n, C default_value) that constructs an instance of V of size n
+            the method size()
+            the operator [] for both reading and writing
+        _s is the string (V) to be calculated on
+        dif0, dif1, dif2 are three characters (C's) that are different and do appear in the string
+        return 2n-1 numbers, the i-th of which is the length of the longest palindrome centered at that position (can be 0 for odd i's)
+    Usage examples:
+    1.
+        string s(10, 'x');
+        vector<int> result_s = getManacher(s);
+    2.
+        vector<int> v(10);
+        iota(v.begin(), v.end(), 0);
+        vector<int> result_v = getManacher<vector<int>, int>(v, -1, -2, -3);
+*/
+template <class V = string, class C = char>
+vector<int> getManacher(V _s, C dif0 = '$', C dif1 = '#', C dif2 = '&') {
+    V s = [&]() -> V {
+        int _n = _s.size();
+        V s(2 * _n + 1, dif1);
+        s[0] = dif0;
+        for (int i = 0; i < _n; i++) {
+            s[2 * i + 1] = _s[i];
+        }
+        s[2 * _n] = dif2;
+        return s;
+    }();
+    int n = s.size();
+    vector<int> z(n, 1);
+    for (int i = 1, l = 0, r = 0; i < n - 1; i++) {
+        if (i < r) {
+            z[i] = min(r - i, z[l + r - i - 1]);
+        }
+        while (s[i - z[i]] == s[i + z[i]]) {
+            z[i]++;
+        }
+        if (i + z[i] > r) {
+            r = i + z[i];
+            l = i - z[i] + 1;
+        }
+        if (i & 1) {
+            z[i] = (z[i] - 1) / 2 * 2 + 1;
+        } else {
+            z[i] = z[i] / 2 * 2;
+        }
+    }
+    return vector<int>(z.begin() + 1, z.end() - 1);
 }
