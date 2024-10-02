@@ -49,4 +49,59 @@ struct BipartiteMatching {
         }
         return res;
     }
+
+    /*
+    Minimum Vertex Cover (MVC)
+    - Give orientation to edges, unmatched edges go left to right, matched edges go right to left.
+    - DFS from unmatched nodes of left side.
+    - MVC are unvisited nodes of left side, and visited nodes of right side.
+    */
+    vector<int> getMVC() {
+        vector<array<int, 2>> matched_edges = getMCBM();
+        vector<int> color(n, -1);
+        function<void(int)> paint = [&](int u) {
+            for (int v : adj[u]) {
+                if (color[v] == -1) {
+                    color[v] = color[u] ^ 1;
+                    paint(v);
+                }
+            }
+        };
+        for (int u = 0; u < n; u++) {
+            if (color[u] == -1) {
+                color[u] = 0;
+                paint(u);
+            }
+        }
+        vector<int> match(n, -1);
+        for (array<int, 2> e : matched_edges) {
+            int u = e[0], v = e[1];
+            match[u] = v;
+            match[v] = u;
+        }
+        vector<bool> vis(n, false);
+        function<void(int)> dfs = [&](int u) {
+            vis[u] = true;
+            for (int v : adj[u]) {
+                if (v == match[u]) continue;
+                if (vis[v]) continue;
+                vis[v] = true;
+                if (!vis[match[v]]) dfs(match[v]);
+            }
+        };
+        for (int u = 0; u < n; u++) {
+            if (color[u] == 0 && match[u] == -1 && !vis[u]) {
+                dfs(u);
+            }
+        }
+        vector<int> res;
+        for (int u = 0; u < n; u++) {
+            if (color[u] == 0) {
+                if (!vis[u]) res.push_back(u);
+            } else {
+                if (vis[u]) res.push_back(u);
+            }
+        }
+        return res;
+    }
 };
