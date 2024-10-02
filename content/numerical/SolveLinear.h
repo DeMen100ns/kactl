@@ -23,9 +23,9 @@ int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return ra
                 }
             }
         }
-        if (bv == 0) {
+        if (bv == 0) { // if dealing with floating point, replace with "bv <= EPS" to alleviate precision issues
             for (int r = i; r < n; r++) {
-                if (b[r] != 0) return -1; // if dealing with floating point, replace with "abs(b[r]) > EPSILON" to alleviate precision issues
+                if (b[r] != 0) return -1; // if dealing with floating point, replace with "abs(b[r]) > EPS" to alleviate precision issues
             }
             break;
         }
@@ -38,7 +38,7 @@ int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return ra
         T coef0 = 1 / A[i][i];
         for (int r = i + 1; r < n; r++) {
             T coef = coef0 * A[r][i];
-            for (int c = i; c < m; c++) {
+            for (int c = i; c < m; c++) { // to get the determined values of x, replace with "for (int c = 0; c < m; c++) if (c != i) {"
                 A[r][c] -= coef * A[i][c];
             }
             b[r] -= coef * b[i];
@@ -54,6 +54,18 @@ int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return ra
             b[r] -= b[i] * A[r][i];
         }
     }
+
+    // to get the determined values of x, replace the above block "fill; for { }" with the following
+    /*
+    fill(x.begin(), x.end(), undefined);
+    for (int i = 0; i < rank; i++) {
+        for (int j = rank; j < m; j++) {
+            if (A[i][j] != 0) goto fail; // if dealing with floating point, replace with "abs(A[i][j]) > EPS" to alleviate precision issues
+        }
+        x[order[i]] = b[i] / A[i][i];
+        fail:;
+    }
+    */
 
     return rank;
 }
