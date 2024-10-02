@@ -1,5 +1,10 @@
-// n functions y=0x+0 by default, modifiable at any time, queries for maximum y, queries must be non-decreasing by x
-// node localizes temperature, x = 0 for each node by default, laziable
+/**
+ * Author: DeMen100ns
+ * Date: 2024-01-01
+ * Description: 
+ * n functions y=0x+0 by default, modifiable at any time, queries for maximum y, queries must be non-decreasing by x
+ * node localizes temperature, x = 0 for each node by default, laziable
+ */
 
 const long long INF = (long long)4e18;
 
