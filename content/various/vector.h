@@ -1,3 +1,8 @@
+/**
+ * Author: Ann
+ * Description: Build a k-dimension vector
+ */
+
 template<int D, typename T>
 struct Vec : public vector<Vec<D - 1, T>> {
     static_assert(D >= 1, "Vector dimension must be greater than zero!");
