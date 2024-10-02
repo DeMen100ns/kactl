@@ -1,6 +1,13 @@
-// supports: point modify, range apply, range query, walk to find first/last with some precedent
-// you are to implement the 2 structs Tag and Info
-// for the walks, pass a lambda that takes in Info and return true iff the node with that Info will contain the desired element
+/**
+ * Author: DeMen100ns
+ * Date: 2023
+ * License: CC0
+ * Description: Lazy Propogation Segment Tree
+ *
+ * supports -> point modify, range apply, range query, walk to find first/last with some precedent
+ * you are to implement the 2 structs Tag and Info
+ * for the walks, pass a lambda that takes in Info and return true iff the node with that Info will contain the desired element
+*/
 
 template<class Info, class Tag>
 struct LazySegmentTree {
