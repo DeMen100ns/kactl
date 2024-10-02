@@ -1,39 +1,52 @@
 /**
  * Author: DeMen100ns
- * Date: 2023
+ * Date: 2024
  * Description: DeMen-Kuhn (Kuhn with Russian optimize)
  * Time: O(VE) but very fast in practice
  */
 
-vector <int> a[N];
-int f[N], ctf = 0;
-int n, m, mr[N];
-bool ml[N];
+struct BipartiteMatching {
+    int n;
+    vector<vector<int>> adj;
 
-bool dfs(int u){
-    if (f[u] == ctf) return false;
-    f[u] = ctf;
-    shuffle(a[u].begin(), a[u].end(), rng);
-    for(int i : a[u]){
-        if (!mr[i] || dfs(mr[i])){
-            mr[i] = u;
-            return true;
-        }
+    BipartiteMatching(int n) : n(n), adj(n) {}
+
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
-    return false;
-}
 
-int maximum_matching(){
-    int cnt = 0;
-    for(bool run = true; run;){
-        run = false; ++ctf;
-        for(int i = 1; i <= n; ++i){
-            if (!ml[i] && dfs(i)){
-                run = true;
-                ++cnt;
-                ml[i] = true;
+    vector<array<int, 2>> getMCBM() {
+        vector<int> match(n, -1);
+        vector<int> vis(n, -1);
+        int ite = 0;
+        function<bool(int)> dfs = [&](int u) {
+            if (vis[u] == ite) return false;
+            vis[u] = ite;
+            for (int v : adj[u]) {
+                if (match[v] == -1 || dfs(match[v])) {
+                    match[v] = u;
+                    match[u] = v;
+                    return true;
+                }
+            }
+            return false;
+        };
+        for (bool run = true; run; ) {
+            run = false;
+            for (int u = 0; u < n; u++) {
+                if (match[u] == -1) {
+                    run |= dfs(u);
+                }
+            }
+            ite++;
+        }
+        vector<array<int, 2>> res;
+        for (int u = 0; u < n; u++) {
+            if (match[u] != -1 && match[u] > u) {
+                res.push_back({ u, match[u] });
             }
         }
+        return res;
     }
-    return cnt;
-}
+};
