@@ -82,4 +82,18 @@ struct LPSolver {
 		rep(i,0,m) if (B[i] < n) x[B[i]] = D[i][n+1];
 		return ok ? D[m][n+1] : inf;
 	}
+
+	static bool is_unimodular(vector<vector<int>>& A){
+		for(int i=0; i<A.size(); ++i){
+			for(int j=i+1; j<A.size(); ++j){
+				for(int k=0; k<A[0].size(); ++k){
+					for(int l=k+1; l<A[0].size(); ++l){
+						int det = A[i][k]*A[j][l] - A[i][l]*A[j][k];
+						if (det!=0 and det!=1 and det!=-1)return false;
+	                   		}
+				}
+			}
+		}
+		return true;
+	}
 };
