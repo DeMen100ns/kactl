@@ -2,6 +2,10 @@
  * Author: DeMen100ns
  * Date: 2024
  * Description: DeMen-Kuhn (Kuhn with Russian optimize)
+ * Minimum Vertex Cover (MVC)
+ *  - Give orientation to edges, unmatched edges go left to right, matched edges go right to left.
+ *  - DFS from unmatched nodes of left side.
+ *  - MVC are unvisited nodes of left side, and visited nodes of right side.
  * Time: O(VE) but very fast in practice
  */
 
@@ -50,12 +54,6 @@ struct BipartiteMatching {
         return res;
     }
 
-    /*
-    Minimum Vertex Cover (MVC)
-    - Give orientation to edges, unmatched edges go left to right, matched edges go right to left.
-    - DFS from unmatched nodes of left side.
-    - MVC are unvisited nodes of left side, and visited nodes of right side.
-    */
     vector<int> getMVC() {
         vector<array<int, 2>> matched_edges = getMCBM();
         vector<int> color(n, -1);
