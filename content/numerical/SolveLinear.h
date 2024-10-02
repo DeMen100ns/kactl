@@ -1,49 +1,54 @@
-/**
- * Author: Per Austrin, Simon Lindholm
- * Date: 2004-02-08
- * License: CC0
- * Description: Solves $A * x = b$. If there are multiple solutions, an arbitrary one is returned.
- *  Returns rank, or -1 if no solutions. Data in $A$ and $b$ is lost.
- * Time: O(n^2 m)
- * Status: tested on kattis:equationsolver, and bruteforce-tested mod 3 and 5 for n,m <= 3
- */
-#pragma once
+template <class T>
+int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return rank, or -1 if no solution
+    int n = A.size(), m = x.size(), rank = 0;
+    if (n > 0) assert(A[0].size() == m);
 
-typedef vector<double> vd;
-const double eps = 1e-12;
+    vector<int> order(m);
+    iota(order.begin(), order.end(), 0);
 
-int solveLinear(vector<vd>& A, vd& b, vd& x) {
-	int n = sz(A), m = sz(x), rank = 0, br, bc;
-	if (n) assert(sz(A[0]) == m);
-	vi col(m); iota(all(col), 0);
+    for (int i = 0; i < n; i++) {
+        T bv = 0;
+        int br, bc;
+        for (int r = i; r < n; r++) {
+            for (int c = i; c < m; c++) {
+                if (A[r][c] != 0) { // if dealing with floating point, replace with "abs(A[r][c]) > bv" to alleviate precision issues
+                    bv = A[r][c];
+                    br = r;
+                    bc = c;
+                }
+            }
+        }
+        if (bv == 0) {
+            for (int r = i; r < n; r++) {
+                if (b[r] != 0) return -1; // if dealing with floating point, replace with "abs(b[r]) > EPSILON" to alleviate precision issues
+            }
+            break;
+        }
+        swap(A[i], A[br]);
+        swap(b[i], b[br]);
+        swap(order[i], order[bc]);
+        for (int r = 0; r < n; r++) {
+            swap(A[r][i], A[r][bc]);
+        }
+        T coef0 = 1 / A[i][i];
+        for (int r = i + 1; r < n; r++) {
+            T coef = coef0 * A[r][i];
+            for (int c = i; c < m; c++) {
+                A[r][c] -= coef * A[i][c];
+            }
+            b[r] -= coef * b[i];
+        }
+        rank++;
+    }
 
-	rep(i,0,n) {
-		double v, bv = 0;
-		rep(r,i,n) rep(c,i,m)
-			if ((v = fabs(A[r][c])) > bv)
-				br = r, bc = c, bv = v;
-		if (bv <= eps) {
-			rep(j,i,n) if (fabs(b[j]) > eps) return -1;
-			break;
-		}
-		swap(A[i], A[br]);
-		swap(b[i], b[br]);
-		swap(col[i], col[bc]);
-		rep(j,0,n) swap(A[j][i], A[j][bc]);
-		bv = 1/A[i][i];
-		rep(j,i+1,n) {
-			double fac = A[j][i] * bv;
-			b[j] -= fac * b[i];
-			rep(k,i+1,m) A[j][k] -= fac*A[i][k];
-		}
-		rank++;
-	}
+    fill(x.begin(), x.end(), 0);
+    for (int i = rank - 1; i >= 0; i--) {
+        b[i] /= A[i][i];
+        x[order[i]] = b[i];
+        for (int r = 0; r < i; r++) {
+            b[r] -= b[i] * A[r][i];
+        }
+    }
 
-	x.assign(m, 0);
-	for (int i = rank; i--;) {
-		b[i] /= A[i][i];
-		x[col[i]] = b[i];
-		rep(j,0,i) b[j] -= A[j][i] * b[i];
-	}
-	return rank; // (multiple solutions if rank < m)
+    return rank;
 }
