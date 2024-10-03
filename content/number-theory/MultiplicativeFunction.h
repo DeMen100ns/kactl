@@ -1,7 +1,7 @@
 /**
  * Author: DeMen100ns
- * Description: Calculate every multiplicative function value {f(1) -> f(n)}, with only know f(p^k) in O(T) with given prime p and integer k. 
- * Time: O(n * T), with O(T) as the complexity of calculate f(p^k).
+ * Description: Calculate every multiplicative function value $f(1) \rightarrow f(n)$, with only know $f(p^k)$ in $O(T)$ with given prime $p$ and integer $k$. 
+ * Time: $O(n \times T)$, with $O(T)$ as the complexity of calculate $f(p^k)$.
  */
 
 vector <int> sieve (int n) {
