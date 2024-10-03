@@ -10,14 +10,14 @@
  *    _s is the string (V) to be calculated on
  *    dif0, dif1, dif2 are three characters (C's) that are different and do appear in the string
  *    return 2n-1 numbers, the i-th of which is the length of the longest palindrome centered at that position (can be 0 for odd i's)
- * Usage examples:
+ * Usage:
  * 1.
- *    string s(10, 'x');
- *    vector<int> result_s = getManacher(s);
+ *    $string s(10, 'x');$
+ *    $vector<int> result_s = getManacher(s);$
  * 2.
- *    vector<int> v(10);
- *    iota(v.begin(), v.end(), 0);
- *    vector<int> result_v = getManacher<vector<int>, int>(v, -1, -2, -3);
+ *    $vector<int> v(10);$
+ *    $iota(v.begin(), v.end(), 0);$
+ *    $vector<int> result_v = getManacher<vector<int>, int>(v, -1, -2, -3);$
 */
 template <class V = string, class C = char>
 vector<int> getManacher(V _s, C dif0 = '$', C dif1 = '#', C dif2 = '&') {
