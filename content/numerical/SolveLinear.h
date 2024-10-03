@@ -1,16 +1,9 @@
-/**
- * Author: Ann
- * Description: Solve system of n equations with m variables
- */
-
 template <class T>
 int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return rank, or -1 if no solution
     int n = A.size(), m = x.size(), rank = 0;
     if (n > 0) assert(A[0].size() == m);
-
     vector<int> order(m);
     iota(order.begin(), order.end(), 0);
-
     for (int i = 0; i < n; i++) {
         T bv = 0;
         int br, bc;
@@ -45,7 +38,6 @@ int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return ra
         }
         rank++;
     }
-
     fill(x.begin(), x.end(), 0);
     for (int i = rank - 1; i >= 0; i--) {
         b[i] /= A[i][i];
@@ -54,7 +46,6 @@ int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return ra
             b[r] -= b[i] * A[r][i];
         }
     }
-
     // to get the determined values of x, replace the above block "fill; for { }" with the following
     /*
     fill(x.begin(), x.end(), undefined);
@@ -66,6 +57,5 @@ int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return ra
         fail:;
     }
     */
-
     return rank;
 }
