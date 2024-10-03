@@ -1,6 +1,6 @@
 /**
  * Author: Ann
- * Description:
+ * Description: $
 */
 template <class V = string, class C = char>
 vector<int> getManacher(V _s, C dif0 = '$', C dif1 = '#', C dif2 = '&') {
