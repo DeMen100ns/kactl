@@ -10,7 +10,7 @@
  *    _s is the string (V) to be calculated on
  *    dif0, dif1, dif2 are three characters (C's) that are different and do appear in the string
  *    return 2n-1 numbers, the i-th of which is the length of the longest palindrome centered at that position (can be 0 for odd i's)
- * Usage examples:
+ * Usage:
  * 1.
  *    string s(10, 'x');
  *    vector<int> result_s = getManacher(s);
