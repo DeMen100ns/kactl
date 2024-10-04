@@ -1,3 +1,8 @@
+/**
+ * Author: Ann
+ * Description: Solve system of n equations with m variables.
+ */
+
 template <class T>
 int solveLinear(vector<vector<T>> &A, vector<T> &b, vector<T> &x) { // return rank, or -1 if no solution
     int n = A.size(), m = x.size(), rank = 0;
