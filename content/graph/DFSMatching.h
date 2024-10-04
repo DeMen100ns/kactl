@@ -36,6 +36,9 @@ struct BipartiteMatching {
             }
             return false;
         };
+        for (int u = 0; u < n; u++) {
+            shuffle(a[u].begin(), a[u].end(), rng(04072007)); //add random
+        }
         for (bool run = true; run; ) {
             run = false;
             for (int u = 0; u < n; u++) {
