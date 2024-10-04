@@ -37,7 +37,7 @@ struct BipartiteMatching {
             return false;
         };
         for (int u = 0; u < n; u++) {
-            shuffle(adj[u].begin(), adj[u].end(), mt19937(04072007)); //add random
+            shuffle(adj[u].begin(), adj[u].end(), mt19937(04072006)); //add random
         }
         for (bool run = true; run; ) {
             run = false;
