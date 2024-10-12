@@ -20,9 +20,9 @@
     		\item $x$ prime and $x^2 \le n$ $(n \in Q_n)$
         	\begin{itemize}
     			\item $f(x) -> F_{prime}(x): S(x, n) = S(x - 1, n) - f(x) (S(x - 1, \lfloor n/x \rfloor) - S(x - 1, x - 1))$
-     			\item $F_{prime}(x) -> F(x): S(x - 1, n) = S(x, n) + \sum_{1 \le c, x^{c+1} \le n} f(x^c) (S(x, \lfloor n/x^c \rfloor) - F_{prime}(x)) + f(x^{c+1})
+     			\item $F_{prime}(x) -> F(x): S(x - 1, n) = S(x, n) + \sum_{1 \le c, x^{c+1} \le n} f(x^c) (S(x, \lfloor n/x^c \rfloor) - F_{prime}(x)) + f(x^{c+1})$
         	\end{itemize}
-	 	\item otherwise: S(x, n) = S(x - 1, n)
+	 	\item otherwise: $S(x, n) = S(x - 1, n)$
      	\end{itemize}
 
 \section{Divisibility}
